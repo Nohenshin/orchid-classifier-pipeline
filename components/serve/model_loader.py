@@ -13,12 +13,8 @@ def load_model(model_dir):
     label_to_name = joblib.load(f"{model_dir}/label_to_name.joblib")
 
 def predict(image_path):
-    features = extract_features(image_path).reshape(1, -1)
-    features_scaled = scaler.transform(features)
-    pred_label = model.predict(features_scaled)[0]
-    proba = model.predict_proba(features_scaled)[0].tolist() if hasattr(model, "predict_proba") else None
-    return {
-        "class": label_to_name[pred_label],
-        "class_id": int(pred_label),
-        "probabilities": proba
-    }
+    feat = extract_features(image_path).reshape(1, -1)
+    feat_scaled = scaler.transform(feat)
+    pred_id = model.predict(feat_scaled)[0]
+    proba = model.predict_proba(feat_scaled)[0].tolist() if hasattr(model, "predict_proba") else None
+    return {"class": label_to_name[pred_id], "class_id": int(pred_id), "probabilities": proba}

@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/predict', methods=['POST'])
 def predict():
     if 'image' not in request.files:
-        return jsonify({'error': 'No image file'}), 400
+        return jsonify({'error': 'No image'}), 400
     file = request.files['image']
     filename = secure_filename(file.filename)
     temp_path = f"/tmp/{filename}"
@@ -20,7 +20,7 @@ def predict():
         os.remove(temp_path)
     return jsonify(result)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_dir', required=True)
     parser.add_argument('--port', type=int, default=5000)
